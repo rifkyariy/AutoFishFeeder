@@ -1,0 +1,52 @@
+---
+  0 debug pnpm:scope: 
+    selected: 1
+    workspacePrefix: null
+  1 info pnpm: 
+    message: "A store server is running. All store manipulations are delegated to it."
+    prefix: "/app"
+  2 debug pnpm:package-json: 
+    initial: 
+      name: "hello-node"
+      version: "0.0.1"
+      description: "A simple Node app built on fastify, instantly up and running."
+      main: "server.js"
+      scripts: 
+        start: "node server.js"
+      dependencies: 
+        axios: "^0.21.1"
+        fastify: "^3.14.1"
+        fastify-formbody: "^5.0.0"
+        fastify-static: "^4.0.0"
+        handlebars: "^4.7.7"
+        point-of-view: "^4.14.0"
+        request: "^2.88.2"
+      engines: 
+        node: "12.x"
+      repository: 
+        url: "https://glitch.com/edit/#!/glitch-hello-node"
+      license: "MIT"
+      keywords: 
+        - "node"
+        - "glitch"
+        - "express"
+      readme: "# Hello Node!\n\nThis project includes a Node.js server script and a web page that connects to it. The front-end page presents a form the visitor can use to submit a color name, sending the submitted value to the back-end API running on the server. The server returns info to the page that allows it to update the display with the chosen color. 🎨\n\n[Node.js](https://nodejs.org/en/about/) is a popular runtime that lets you run server-side JavaScript. This project uses the [Fastify](https://www.fastify.io/) framework and explores basic templating with [Handlebars](https://handlebarsjs.com/).\n\n## What's in this project?\n\n← `README.md`: That’s this file, where you can tell people what your cool website does and how you built it.\n\n← `public/style.css`: The styling rules for the pages in your site.\n\n← `server.js`: The **Node.js** server script for your new site. The JavaScript defines the endpoints in the site back-end, one to return the homepage and one to update with the submitted color. Each one sends data to a Handlebars template which builds these parameter values into the web page the visitor sees.\n\n← `package.json`: The NPM packages for your project's dependencies.\n\n← `src/`: This folder holds the site template along with some basic data files.\n\n← `src/pages/index.hbs`: This is the main page template for your site. The template receives parameters from the server script, which it includes in the page HTML. The page sends the user submitted color value in the body of a request, or as a query parameter to choose a random color.\n\n← `src/colors.json`: A collection of CSS color names. We use this in the server script to pick a random color, and to match searches against color names.\n\n← `src/seo.json`: When you're ready to share your new site or add a custom domain, change SEO/meta settings in here.\n\n## Next steps 🚀\n\nLet's keep track of the submitted favorites using an array. First add this code near the top of `server.js`:\n\n```js\nconst favorites = [];\n```\n\nIn the `POST` route, inside the `if(color)` block, add this code to save the submitted value to the array, and write it to the console:\n\n```js\nfavorites.push(color);\nconsole.log(favorites);\n```\n\nClick __Tools__ > __Logs__ at the bottom of Glitch to see the log statement in action when you submit new colors through the form.\n\nClearly this is not a robust data storage approach and won't persist for long! Your Node apps can use a variety of databases, like [SQLite](https://glitch.com/~hello-sqlite) and [Airtable](https://glitch.com/~airtable-guestbook-starter).\n\n![Glitch](https://cdn.glitch.com/a9975ea6-8949-4bab-addb-8a95021dc2da%2FLogo_Color.svg?v=1602781328576)\n\n## You built this with Glitch!\n\n[Glitch](https://glitch.com) is a friendly community where millions of people come together to build web apps and websites.\n\n- Need more help? [Check out our Help Center](https://help.glitch.com/) for answers to any common questions.\n- Ready to make it official? [Become a paid Glitch member](https://glitch.com/pricing) to boost your app with private sharing, more storage and memory, domains and more.\n"
+      readmeFilename: "README.md"
+      gitHead: "aa82a64b2e8c575aa901a85ef2147814e79a6931"
+      _id: "hello-node@0.0.1"
+    prefix: "/app"
+  3 warn pnpm: 
+    message: "Moving axios that was installed by a different package manager to \"node_modules/.ignored"
+    prefix: "/app"
+  4 error pnpm: 
+    message: 
+      errno: -39
+      code: "ENOTEMPTY"
+      syscall: "rename"
+      path: "/rbd/pnpm-volume/5eaf3864-98ad-4f33-8e3f-99b43a321be5/node_modules/axios"
+      dest: "/rbd/pnpm-volume/5eaf3864-98ad-4f33-8e3f-99b43a321be5/node_modules/.ignored/axios"
+    err: 
+      name: "Error"
+      message: "ENOTEMPTY: directory not empty, rename '/rbd/pnpm-volume/5eaf3864-98ad-4f33-8e3f-99b43a321be5/node_modules/axios' -> '/rbd/pnpm-volume/5eaf3864-98ad-4f33-8e3f-99b43a321be5/node_modules/.ignored/axios'"
+      code: "ENOTEMPTY"
+      stack: "Error: ENOTEMPTY: directory not empty, rename '/rbd/pnpm-volume/5eaf3864-98ad-4f33-8e3f-99b43a321be5/node_modules/axios' -> '/rbd/pnpm-volume/5eaf3864-98ad-4f33-8e3f-99b43a321be5/node_modules/.ignored/axios'"

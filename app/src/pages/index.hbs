@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.1.2/tailwind.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.1.2/base.min.css" integrity="sha512-Pf6FT8Bk6JPIDNqg5ASpHs+Vx5hQyg0RdDU7uwlBa/X+sT4oC2/OBN78/o2OFI/nilyF2V3bpLSqsOO5Ne/Nng==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.1.2/components.min.css" integrity="sha512-f6TS5CFJrH/EWmarcBwG54/kW9wwejYMcw+I7fRnGf33Vv4yCvy4BecCKTti3l8e8HnUiIbxx3V3CuUYGqR1uQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  
+  <style>
+    .toggle-checkbox:checked {
+      right: 0;
+      border-color: #68D391;
+    }
+
+    .toggle-checkbox:checked + .toggle-label {
+      background-color: #68D391;
+    }
+
+    .device {
+      margin: 1rem 0;
+    }
+
+    .device:first-of-type {
+      margin: 0 0 1rem 0 !important;
+    }
+  </style>
+  <title>AutoFeed</title>
+</head>
+<body>
+  <div class="p-4 bg-gray-900 h-screen w-full pb-16">
+    <section id="feed-section">
+      <div class="uppertext pt-4 mb-8 flex justify-between">
+        <div class="w-3/4">
+          <h1 class="text-xl leading-tight font-bold text-white">
+            Welcome, Rifky Ari !
+          </h1>
+          <span class="text-gray-400">
+            Let's manage your Aquarium
+          </span>
+        </div>
+        <img class="rounded-lg" width="50px" src="https://ui-avatars.com/api/?name=RI&background=6365f1&color=fff" alt="">
+      </div>
+      
+      <div class="time">
+        <div class="bg-gray-800 rounded-xl shadow-md overflow-hidden ">
+          <div class="p-5 text-center">
+            <h5 class="text-md font-bold text-indigo-400">
+              Current Time
+            </h5>
+            <h1 id="current-time" class="text-4xl font-bold text-white py-1">
+              - : - : -
+            </h1>
+            <div id="current-date" class="tracking-wide text-md text-gray-500 font-semibold "></div>
+          </div>
+        </div>
+      </div>
+
+      <h1 class="text-gray-200 py-4 font-bold">
+        My Device
+      </h1>
+
+      <div id="my-device">
+        <div class="device-list">
+          <div class="device bg-gray-800 rounded-xl shadow-md overflow-hidden ">
+            <div class="p-5">
+              <div class="flex justify-between">
+                <div class="aquarium rounded-xl p-3 bg-indigo-500 w-16">
+                  <img src="https://cdn.glitch.com/5eaf3864-98ad-4f33-8e3f-99b43a321be5%2Ffish-tank%201.png?v=1622311413303" alt="">
+                </div>
+                <div class="text-right">
+                  <div id="pakan">
+                    
+                  </div>
+                  <h1 class="text-xl leading-tight my-2 font-bold text-white"><a id="suhu">-</a> °C</h1>
+                </div>
+                <!-- <div class="relative inline-block w-16 mr-2 align-middle select-none transition duration-200 ease-in">
+                  <input type="checkbox" name="toggle" id="toggle" class="toggle-checkbox absolute block w-8 h-8 rounded-full bg-white border-4 appearance-none cursor-pointer"/>
+                  <label for="toggle" class="toggle-label block overflow-hidden h-8 rounded-full bg-gray-300 cursor-pointer"></label>
+                </div> -->
+              </div>
+              <div class="mt-4">
+                <div class="uppercase tracking-wide text-md text-white font-semibold aquaId"></div>
+                <p class="mt-2 text-gray-400" id="aquaDesc"></p>
+                <div class="grid grid-cols-2 gap-2 mt-2">
+                  <button id="set-schedule" class="bg-indigo-500 hover:bg-indigo-800 text-white font-bold mt-2 py-2 px-4 rounded-lg">
+                    Set Schedule
+                  </button>
+                  <button class="bg-indigo-500 hover:bg-indigo-800 text-white font-bold mt-2 py-2 px-4 rounded-lg" onclick="trigFeed()">
+                    Feed Tank
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="schedule-section" class="hidden pb-30">
+      <div class="my-4">
+        <span id="to-home" class="flex text-gray-400 mb-4 cursor-pointer">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="#dadde2">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Home
+        </span>
+        <div class="aquaId uppercase tracking-wide text-md text-indigo-500 font-semibold"></div>
+        <h1 class="text-3xl leading-tight font-bold text-white mb-4">
+          Feeding Schedule
+        </h1>
+      </div>
+      <div id="schedule-list">
+        
+      </div>
+      <button id="add-schedule" class="w-full border-dashed border-2 border-indigo-200 hover:bg-gray-700  bg-gray-800 text-white font-bold mt-2 mb-30 py-8 px-4 rounded-lg" onclick="modalOnClick()">
+        ⏰   Add Schedule
+      </button>
+    </section>
+  </div>
+  
+  <nav class="fixed bottom-0 w-full bg-gray-800 flex rounded-t-lg p-2">
+    <button id="home-btn"  class="rounded-lg bg-indigo-500 hover:bg-indigo-800 w-1/2 py-2 px-4 my-2 mx-1 text-center text-white font-bold ">
+      🐠   Feed
+    </button>
+    <button id="schedule-btn" class="rounded-lg hover:bg-indigo-800  w-1/2 py-3 px-4 my-2 mx-1 text-center text-white font-bold ">
+      🗓   Schedule
+    </button>
+  </nav>
+  
+
+  <div id="schedule-input" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+    <div class="flex items-end justify-center min-h-screen pt-4text-center sm:block sm:p-0">
+      
+      <div class="backdrop fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+      <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+
+      <div class="inline-block align-bottom bg-white rounded-t-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+        <nav id="input-schedule" class="w-full bg-gray-800 z-10 rounded-t-lg p-2 px-4">
+          <h1 class="text-2xl leading-tight font-bold text-white mb-4 py-2 text-center">
+            Set Time
+          </h1>
+          <div class="grid grid-cols-2 gap-4 mt-2">
+            <input class="rounded-lg bg-gray-700 text-right text-white font-bold py-4 px-4 w-full" id="hour-in" placeholder="HH">
+            <input class="rounded-lg bg-gray-700 text-right text-white font-bold py-4 px-4 w-full" id="min-in" placeholder="MM">
+            <input type="hidden" id="hidden-in">
+          </div>
+          <div class="grid grid-cols-2 gap-2 mt-2 mb-4">
+            <button id="back-btn" class="hover:bg-grey-500 text-white font-bold mt-2 py-2 px-4 rounded-lg hidden">
+              Back 
+            </button>
+            <button id="del-btn" class="hover:bg-red-500 text-white font-bold mt-2 py-2 px-4 rounded-lg" onclick="deleteSchedule()">
+              Delete 
+            </button>
+            <button class="bg-indigo-500 hover:bg-indigo-800 text-white font-bold mt-2 py-2 px-4 rounded-lg" onclick="setSchedule()">
+              Save
+            </button>
+          </div>
+        </nav>
+      </div>
+    </div>
+  </div>
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js" integrity="sha512-LGXaggshOkD/at6PFNcp2V2unf9LzFq6LE+sChH7ceMTDP0g2kn6Vxwgg7wkPP7AAtX+lmPqPdxB47A0Nz0cMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    let decodedData = decode(`{{ con }}`);
+    let realTimeData = JSON.parse(decodedData);
+    
+    let schedule = realTimeData.schedule;
+    schedule = schedule.split(',');
+    
+    function realtimeClock() {
+      $('#current-time').html(moment().format('HH : mm : ss'));
+      $('#current-date').html(moment().format('D MMMM YYYY'));
+    }
+    
+    function decode(html) {
+      var txt = document.createElement('textarea');
+      txt.innerHTML = html;
+      return txt.value;
+    };
+    
+    function modalOnClick(time = ""){
+      $("#schedule-input").show();
+      $("#hidden-in").val(time);
+      
+      time = time.split(":");
+      let hour = time[0];
+      let min = time[1];
+      
+      $('#hour-in').val(hour);
+      $('#min-in').val(min);
+      
+      if(time != ""){
+        $("#back-btn").hide();
+        $("#del-btn").show();
+      }else{
+        $("#back-btn").show();
+        $("#del-btn").hide();
+      }
+    }
+    
+    $(".backdrop, #back-btn").on('click', () => {
+      $("#schedule-input").hide();
+    });
+    
+    function setSchedule(){
+      let hour = $('#hour-in').val();
+      let min = $('#min-in').val();
+      let time = `${hour}:${min}`;
+      
+      if(!schedule.includes(time)){
+        if($("#hidden-in").val() != ""){
+          schedule.forEach((el, i) => {
+            if($("#hidden-in").val() == el){
+              schedule[i] = time;
+            }
+          });
+        }else{
+          schedule.push(time);
+        }
+      }
+      
+      console.log(schedule);
+      
+      schedule = JSON.stringify(schedule).replace(/['"]+/g, '');
+      schedule = schedule.slice(1,-1);
+ 
+      $.post( "/set/schedule", {
+        'temperature': realTimeData.temperature,
+        'aquaID': realTimeData.aquaID,
+        'desc': realTimeData.desc,
+        'feed': realTimeData.feed,
+        'humidity': realTimeData.humidity,
+        'isFeeding': realTimeData.isFeeding,
+        'schedule': schedule,
+        'trigFeeding': realTimeData.trigFeeding
+      }, function( data ) {
+        if(data.status == "OK"){
+          $("#schedule-input").hide();
+           location.reload();
+        }
+      });
+    }
+    
+    function deleteSchedule(){
+      schedule.forEach((el, i) => {
+        if($("#hidden-in").val() != "" && $("#hidden-in").val() == el){
+          if (i > -1) {
+            schedule.splice(i, 1);
+          }
+        }
+      });
+      
+      schedule = JSON.stringify(schedule).replace(/['"]+/g, '');
+      schedule = schedule.slice(1,-1);
+
+      console.log(schedule);
+      
+      $.post( "/set/schedule", {
+        'temperature': realTimeData.temperature,
+        'aquaID': realTimeData.aquaID,
+        'desc': realTimeData.desc,
+        'feed': realTimeData.feed,
+        'humidity': realTimeData.humidity,
+        'isFeeding': realTimeData.isFeeding,
+        'schedule': schedule,
+        'trigFeeding': 0
+      }, function( data ) {
+        if(data.status == "OK"){
+          $("#schedule-input").hide();
+           location.reload();
+        }
+      });
+    }
+    
+    function trigFeed(){
+      schedule = JSON.stringify(schedule).replace(/['"]+/g, '');
+      schedule = schedule.slice(1,-1);
+      
+      $.post( "/set/schedule", {
+        'temperature': realTimeData.temperature,
+        'aquaID': realTimeData.aquaID,
+        'desc': realTimeData.desc,
+        'feed': realTimeData.feed,
+        'humidity': realTimeData.humidity,
+        'isFeeding': realTimeData.isFeeding,
+        'schedule': schedule,
+        'trigFeeding': 1
+      }, function( data ) {
+        if(data.status == "OK"){
+          $("#schedule-input").hide();
+           location.reload();
+        }
+      });
+    }
+    
+    
+    $('#home-btn, #to-home').on('click',() => {
+      $('#feed-section').show();
+      $('#schedule-section').hide();
+      
+      $('#home-btn').addClass('bg-indigo-500');
+      $('#schedule-btn').removeClass('bg-indigo-500');
+    });
+    
+    $('#set-schedule, #schedule-btn').on('click',() => {
+      $('#feed-section').hide();
+      $('#schedule-section').show();
+      
+      $('#home-btn').removeClass('bg-indigo-500');
+      $('#schedule-btn').addClass('bg-indigo-500');
+    });
+
+    $( document ).ready(function() {
+      setInterval(realtimeClock, 1000);
+      console.log(moment('{{ ct }}').format('h:mm'))
+    });
+      
+    $('#suhu').html(realTimeData.temperature);
+    $('.aquaId').html(realTimeData.aquaID);
+    $('#aquaDesc').html(realTimeData.desc);
+    if(realTimeData.feed == 0){
+      $('#pakan').html(`
+        <span class="rounded-lg bg-red-500 text-sm px-4 py-1 text-white font-bold">Pakan Habis</span>
+      `);
+    }else if(realTimeData.feed > 0 && realTimeData.feed < 30){
+      $('#pakan').html(`
+        <span class="rounded-lg bg-yellow-500 text-sm px-4 py-1 text-white font-bold">Pakan Hampir Habis</span>
+      `);
+    }else{
+      $('#pakan').html(`
+        <span class="rounded-lg bg-green-500 text-sm px-4 py-1 text-white font-bold">Pakan Aman</span>
+      `);
+    }
+      
+    console.log(schedule);
+    console.log(realTimeData);
+      
+    schedule.forEach(el => {
+      if(el != ""){
+        $('#schedule-list').append(`
+        <button class="w-full bg-gray-800 hover:bg-indigo-500 text-white font-bold my-2 py-6 px-4 rounded-lg" onclick="modalOnClick('${el}')">
+          <h1 class="text-3xl font-bold text-white py-1">
+            ${el}
+          </h1>
+        </button>
+      `);
+      }
+    })
+      
+    if(schedule.length <= 6){
+      $("#add-schedule").show();
+    }else{
+      $("#add-schedule").hide();
+    }
+    
+  </script>
+  
+</body>
+</html>
